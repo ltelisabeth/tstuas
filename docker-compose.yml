@@ -2,8 +2,6 @@ version: "2"
 services:
   app_elisabeth:
     build: .
-    links:
-      - db_elisabeth
     ports:
       - "8050:5000"
   db_elisabeth:

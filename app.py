@@ -12,9 +12,9 @@ app = Flask(__name__)
 mysql = MySQL()
 app.secret_key = 'secretkey'
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = ''
+app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
 app.config['MYSQL_DATABASE_DB'] = 'tst_uas'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_HOST'] = '172.24.0.2'
 app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
@@ -155,4 +155,4 @@ if __name__ == "__main__":
     handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=1)
     handler.setLevel(logging.INFO)
     app.logger.addHandler(handler)
-    app.run(host='0.0.0.0')
+    app.run(debug=True)
