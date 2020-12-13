@@ -3,7 +3,7 @@ services:
   app_elisabeth:
     build: .
     links:
-      - db
+      - db_elisabeth
     ports:
       - "8050:5000"
   db_elisabeth:
