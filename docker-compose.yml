@@ -8,6 +8,7 @@ services:
       - "8050:5000"
   db_elisabeth:
     image: mysql:5.7
+    restart: unless-stopped
     ports:
       - "34000:3306"
     environment:
