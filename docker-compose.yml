@@ -9,7 +9,7 @@ services:
   db_elisabeth:
     image: mysql:5.7
     ports:
-      - "32000:3306"
+      - "34000:3306"
     environment:
       MYSQL_DATABASE: tst_uas
       MYSQL_ROOT_PASSWORD: root
