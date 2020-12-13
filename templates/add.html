@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> 
+    <title>Book Inventory</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/login">Login</a>
+    </nav>
+    <div class="container">
+    </div>
+
+    <br>
+    <br>
+    <h2>Add Book</h2>
+
+        <label for="title">Title:</label>
+        <input class="form-control" type="text" name='title' id='title' placeholder="Enter Title" aria-label="Enter Title">
+        <br>
+        <label for="author">Author:</label>
+        <input class="form-control" type="text" name='author' id='author' placeholder="Enter Author" aria-label="Enter Author">
+        <br>
+        <label for="date_published">Date Published:</label>
+        <input type="date" class="form-control" name='published' id="published"
+               placeholder="Enter Date Published" aria-label="Enter Date Published"/>
+        <br>
+        <label for="number_of_pages">Number of Pages:</label>
+        <input class="form-control" type="number" name="totalpages" id="totalpages"
+               placeholder="Enter Number of Pages" aria-label="Enter Number of Pages">
+        <br>
+        <label for="book_type">Pick Type of Book</label>
+        <select id="type" name="type" class="form-control">
+            <option value="novel">Novel</option>
+            <option value="nonfiction">Non Fiction</option>
+            <option value="documentation">Documentation</option>
+            <option value="other">Other</option>
+        </select>
+        <br>
+
+        <br>
+            <button onclick="submit()">ADD</button>
+</body>
+    <script>
+        function submit() {
+            $.ajax({
+                url: "/create",
+                method: "post",
+                data: {
+                    'title': $('#title').val(),
+                    'author': $('#author').val(),
+                    'published': $('#published').val(),
+                    'totalpages': $('#totalpages').val(),
+                    'type': $('#type').val(),
+                },
+                success: function(response) {
+                    console.log(response);
+                    $('#feedback').html('DATA BERHASIL DITAMBAH');
+                },
+                error: function(response) {
+                    console.log(response)
+                }
+            })
+        }
+    </script>
+</html>
