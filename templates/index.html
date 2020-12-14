@@ -1,23 +1,32 @@
-<!-- {% extends 'base.html' %}
-{% block head %} -->
-<title>Daftar Buku</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<!-- {% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Daftar Buku</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-{% block body %} -->
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/login">Login</a>
+    </nav>
+    <div class="container">
+    </div>
+
 
 
 <br>
 <br>
 
 <div>
-    <h1 style="display:inline">Home Page</h1>
-    <br>
-    <br>
-    <button onclick="getResources()">Show book</button>
-    <a style="display:inline" class="btn btn-success float-right" href="/create" >+ New Book</a>
+
 </div>
 
 </div>
@@ -27,11 +36,19 @@
 <script src="<?=BASE_URL;?>js/popper.min.js"></script>
 <script src="<?=BASE_URL;?>js/bootstrap.min.js"></script>
 
-<body>
+
     <div class="container">
-        <h1 class="display-3">Resources List</h1>
+        <h1>Book List</h1>
+        <a style="display:inline" class="btn btn-success float-right" href="/newBook" >+ New Book</a>
+        
+        <a style="display:inline" href="/details" >Update Book Details</a>
+        <br>
+        <br>
+        <a style="display:inline" class="btn btn-danger float-right" href="/delete" >- Delete Book</a>
+        <br>
         <div class="table-responsive">
         <table class="table table-bordered table-striped">
+            <br>
             <thead>
                 <tr>
                     <th scope="col">ID</th>
@@ -44,14 +61,16 @@
             </thead>
             <tbody id="hasil"></tbody>
         </table>
-        </div>
+        <a href="/book" style="color: black;" >JSON</a>
+        <br>    
+    </div>
     </div>
 </body>
 <script>
     function getResources() {
         content = "";
         $.ajax({
-            url: '/user',
+            url: '/book',
             type: 'get',
             crossDomain: true,
             dataType: 'json',
@@ -74,19 +93,4 @@
     );
 </script>
 
-<!-- Footer -->
-<style>
-    .footer {
-        position: fixed; 
-        bottom: 0; 
-        width: 100%; 
-    }
-    </style>
-    <footer class="footer" style="background-color: #080E2c; padding: 1rem; margin-top: 18rem;">
-        <div class="container my-auto" style="color: #FFF;">
-        <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Elisabeth Levana <script>document.write(new Date().getFullYear());</script></span><br>
-        </div>
-        </div>
-    </footer>
-<!-- {% endblock %} -->
+</html>

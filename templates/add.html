@@ -12,17 +12,18 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/login">Login</a>
+        <a class="navbar-brand" href="/">Home</a>
     </nav>
     <div class="container">
     </div>
 
     <br>
     <br>
+    <div class="container">
     <h2>Add Book</h2>
 
         <label for="title">Title:</label>
-        <input class="form-control" type="text" name='title' id='title' placeholder="Enter Title" aria-label="Enter Title">
+        <input class="form-control" type="text" name='title' id='title' placeholder="Enter Title" aria-label="Enter Title" >
         <br>
         <label for="author">Author:</label>
         <input class="form-control" type="text" name='author' id='author' placeholder="Enter Author" aria-label="Enter Author">
@@ -37,20 +38,21 @@
         <br>
         <label for="book_type">Pick Type of Book</label>
         <select id="type" name="type" class="form-control">
-            <option value="novel">Novel</option>
-            <option value="nonfiction">Non Fiction</option>
-            <option value="documentation">Documentation</option>
-            <option value="other">Other</option>
+            <option value="Novel">Novel</option>
+            <option value="Non Fiction">Non Fiction</option>
+            <option value="Documentation">Documentation</option>
+            <option value="Other">Other</option>
         </select>
         <br>
-
-        <br>
             <button onclick="submit()">ADD</button>
+            <br>
+            <a id="feedback"></a>
+        </div>
 </body>
     <script>
         function submit() {
             $.ajax({
-                url: "/create",
+                url: "/newBook",
                 method: "post",
                 data: {
                     'title': $('#title').val(),
@@ -59,12 +61,12 @@
                     'totalpages': $('#totalpages').val(),
                     'type': $('#type').val(),
                 },
-                success: function(response) {
+                success: function (response) {
                     console.log(response);
-                    $('#feedback').html('DATA BERHASIL DITAMBAH');
+                    $('#feedback').html('Book added successfully!');
                 },
-                error: function(response) {
-                    console.log(response)
+                error: function (response) {
+                    console.log(response);
                 }
             })
         }

@@ -12,9 +12,9 @@ app = Flask(__name__)
 mysql = MySQL()
 app.secret_key = 'secretkey'
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'tst_uas'
-app.config['MYSQL_DATABASE_HOST'] = '172.24.0.2'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
@@ -28,27 +28,28 @@ google = oauth.remote_app('google',
                           access_token_url='https://accounts.google.com/o/oauth2/token',
                           access_token_method='POST',
                           access_token_params={'grant_type': 'authorization_code'},
-                          consumer_key='284463975146-mtm76jl4t7n31t11tn1qqcric26hspfi.apps.googleusercontent.com',
-                          consumer_secret='xvV2f5t_2dDJdW7R8dpPPK9M')
+                          consumer_key='735175699258-ps662or9pe3kahl7m1t0i0qqoala6ffd.apps.googleusercontent.com',
+                          consumer_secret='8OjCMHW-XMRn7zNmYOlgbK6b')
 
 # yang penting ada routenya
 # HTTP request method: GET, POST, PUT, DELETE
 # umumnya dipake yang GET POST
 @app.route('/')
 def landing():
-    app.logger.error(time.strftime('%A %B, %d %Y %H:%M:%S')+ ' landing akses')
+    app.logger.error(time.strftime('%A %B, %d %Y %H:%M:%S')+ 'Akses Landing Page')
     return render_template('index.html')
 
 @app.route('/home')
 def index():
-    app.logger.error(time.strftime('%A %B, %d %Y %H:%M:%S')+ ' Akses home')
+    app.logger.error(time.strftime('%A %B, %d %Y %H:%M:%S')+ 'Akses Home Page')
     access_token = session.get('access_token')
     if access_token is None:
         return redirect(url_for('login'))
-    return 'HELLO'
+    return render_template('index.html')
 
 @app.route('/login')
 def login():
+    app.logger.error(time.strftime('%A %B, %d %Y %H:%M:%S')+ 'Akses Login Page')
     callback=url_for('authorized', _external=True)
     return google.authorize(callback=callback)
 
@@ -63,7 +64,7 @@ def authorized(resp):
 
 
 #GET, POST, PUT, DELETE http req method
-@app.route('/user', methods=['GET'])
+@app.route('/book', methods=['GET'])
 def get_user():
     # data = ['alya', 'nomi', 'abeth']
     # users = {
@@ -74,7 +75,7 @@ def get_user():
     # }
 
     # skrg from database
-
+    app.logger.error(time.strftime('%A %B, %d %Y %H:%M:%S')+ 'Akses Book Info')
     conn = mysql.connect()
     cursor = conn.cursor()
     query = 'SELECT * FROM book'
@@ -97,10 +98,12 @@ def get_user():
     #return(render_template('show.html'))
     return {'hasil': result_baru}
 
-@app.route('/create', methods=['POST', 'GET'])
+@app.route('/newBook', methods=['POST', 'GET'])
 def insert_user():
+    app.logger.error(time.strftime('%A %B, %d %Y %H:%M:%S')+ 'Akses Add New Book Page')
     access_token = session.get('access_token')
-
+    if access_token is None:
+        return redirect(url_for('login'))
     if request.method == 'GET':
         conn = mysql.connect()
         cursor = conn.cursor()
@@ -130,29 +133,78 @@ def insert_user():
         }
         return {'hasil': result}
 
-@app.route('/delete/<string:id>',methods=['DELETE'])
-def delete_akun(id):
+@app.route('/details', methods=['PUT', 'GET'])
+def update_user():
+    app.logger.error(time.strftime('%A %B, %d %Y %H:%M:%S')+ 'Akses Update Book Page')
+    # data = ['alya', 'nomi', 'abeth']
+    # users = {
+    #     'status': 'sukses',
+    #     'message': 'ini hasilnya',
+    #     'data': data
+    #     # sabi diganti apapun
+    # }
+
     # skrg from database
     access_token = session.get('access_token')
     if access_token is None:
         return redirect(url_for('login'))
-    conn = mysql.connect()
-    cursor = conn.cursor()
+    if request.method == 'GET':
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        return render_template('update.html')
+    elif request.method == 'PUT':
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        id = request.form['id']
+        title = request.form['title']
+        
+        # cursor buat melakukan perintah2
+        query = 'UPDATE book SET title = %s WHERE id = %s'
+        data = (title, id)
 
-    query = 'DELETE FROM book WHERE id = %s'
+        cursor.execute(query, data)
+        conn.commit()
+        conn.close()
 
-    cursor.execute(query,(id))
-    conn.commit()
-    conn.close()
+        result = {
+            'Data berhasil diubah'
+        }
+        # dari mysql hasilnya langsung list, tapi listnya double
+        return render_template('update.html')
+        #return {'hasil': result}
+        # list: data[0] data[1]
+        # json/dictionary: data['nama']
 
-    result = [{
-            'status': 204,
-            'message': "Success Delete"
-    }]
-    return jsonify(result)
+@app.route('/delete',methods=['DELETE', 'GET'])
+def delete_akun():
+    app.logger.error(time.strftime('%A %B, %d %Y %H:%M:%S')+ 'Akses Delete Book Page')
+    # skrg from database
+    access_token = session.get('access_token')
+    if access_token is None:
+        return redirect(url_for('login'))
+    if request.method == 'GET':
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        return render_template('delete.html')
+    elif request.method == 'DELETE':
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        id = request.form['id']
+        query = 'DELETE FROM book WHERE id = %s'
+
+        cursor.execute(query,(id))
+        conn.commit()
+        conn.close()
+
+        result = [{
+                'status': 204,
+                'message': "Success Delete"
+        }]
+        return render_template('delete.html')
+        #return jsonify(result)
 
 if __name__ == "__main__":
     handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=1)
     handler.setLevel(logging.INFO)
     app.logger.addHandler(handler)
-    app.run(host='0.0.0.0')
+    app.run(debug=True)
