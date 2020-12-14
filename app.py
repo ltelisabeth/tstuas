@@ -11,10 +11,11 @@ oauth = OAuth()
 app = Flask(__name__)
 mysql = MySQL()
 app.secret_key = 'secretkey'
+app.secret_key = 'secretkey'
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = ''
+app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
 app.config['MYSQL_DATABASE_DB'] = 'tst_uas'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_HOST'] = '172.24.0.2'
 app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
@@ -28,8 +29,8 @@ google = oauth.remote_app('google',
                           access_token_url='https://accounts.google.com/o/oauth2/token',
                           access_token_method='POST',
                           access_token_params={'grant_type': 'authorization_code'},
-                          consumer_key='735175699258-ps662or9pe3kahl7m1t0i0qqoala6ffd.apps.googleusercontent.com',
-                          consumer_secret='8OjCMHW-XMRn7zNmYOlgbK6b')
+                          consumer_key='284463975146-mtm76jl4t7n31t11tn1qqcric26hspfi.apps.googleusercontent.com',
+                          consumer_secret='xvV2f5t_2dDJdW7R8dpPPK9M')
 
 # yang penting ada routenya
 # HTTP request method: GET, POST, PUT, DELETE
@@ -207,4 +208,4 @@ if __name__ == "__main__":
     handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=1)
     handler.setLevel(logging.INFO)
     app.logger.addHandler(handler)
-    app.run(debug=True)
+    app.run(host='0.0.0.0')
