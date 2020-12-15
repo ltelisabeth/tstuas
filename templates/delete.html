@@ -20,19 +20,13 @@
     <br>
     <br>
     <div class="container">
-    <h2>Delete Book</h2>
-        <label for="id">ID:</label>
-        <input class="form-control" type="text" name='id' id='id' placeholder="Enter ID" aria-label="Enter ID" >
-        <br>
-
-        <button onclick="deletee()">DELETE</button>
-        <br>
-        <a id="feedback"></a>
-       
+    
+        
+        <h2>Delete Book</h2>
         <div class="table-responsive">
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered">
                 <br>
-                <thead>
+                <thead class="thead-dark">
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Title</th>
@@ -40,27 +34,29 @@
                         <th scope="col">Number of Pages</th>
                         <th scope="col">Book Types</th>
                         <th scope="col">Date Published</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
-                <tbody id="hasil"></tbody>
+                <tbody class="thead-light" id="hasil"></tbody>
             </table>
     
             <br>    
         </div>
+        <a id="feedback"></a>
         </div>
     </div>
 </body>
     <script>
-        function deletee() {
+        function deletee(id) {
             $.ajax({
-                url: "/delete",
+                url: '/delete/' + id,
                 method: 'delete',
-                data: {
-                    'id': $('#id').val(),
-                },
                 success: function (response) {
                     console.log(response);
                     $('#feedback').html('Book deleted successfully!');
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 2000);
                 },
                 error: function (response) {
                     console.log(response);
@@ -77,7 +73,7 @@
             success: function (response) {
                 console.log(response);
                 $.each(response.hasil.slice(0,501), function (key,value) {
-                    content += "<tr><td>" + value.id + "</td><td>" + value.title + "</td><td>" + value.author + "</td><td>" + value.totalpages + "</td><td>" + value.type + "</td><td>" + value.published +"</td></tr>";
+                    content += "<tr><td>" + value.id + "</td><td>" + value.title + "</td><td>" + value.author + "</td><td>" + value.totalpages + "</td><td>" + value.type + "</td><td>" + value.published + '</td><td><button type="submit" class="btn btn-danger" onclick="deletee(' + value.id + ')">Delete</button></td></tr>';
                 });
                 $('#hasil').html(content);
             },
