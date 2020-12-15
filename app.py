@@ -99,6 +99,40 @@ def get_user():
     #return(render_template('show.html'))
     return {'hasil': result_baru}
 
+@app.route('/book/<string:id>', methods=['GET'])
+def get_book(id):
+    # data = ['alya', 'nomi', 'abeth']
+    # users = {
+    #     'status': 'sukses',
+    #     'message': 'ini hasilnya',
+    #     'data': data
+    #     # sabi diganti apapun
+    # }
+
+    # skrg from database
+    app.logger.error(time.strftime('%A %B, %d %Y %H:%M:%S')+ 'Akses Book Info')
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM book WHERE id = %s', (id,))
+    result = cursor.fetchall()
+
+    result_baru = []
+
+    for book in result:
+        akun_baru = {
+            'id': book[0],
+            'title': book[1],
+            'author': book[2],
+            'totalpages': book[3],
+            'type': book[4],
+            'published': book[5],
+        }
+        result_baru.append(akun_baru)
+    #return(render_template('show.html'))
+    return {'hasil': result_baru}
+
+  
 @app.route('/newBook', methods=['POST', 'GET'])
 def insert_user():
     app.logger.error(time.strftime('%A %B, %d %Y %H:%M:%S')+ 'Akses Add New Book Page')
@@ -176,6 +210,43 @@ def update_user():
         # list: data[0] data[1]
         # json/dictionary: data['nama']
 
+@app.route('/details/<string:id>', methods=['PUT'])
+def update_id(id):
+    app.logger.error(time.strftime('%A %B, %d %Y %H:%M:%S')+ 'Akses Update Book Page')
+    # data = ['alya', 'nomi', 'abeth']
+    # users = {
+    #     'status': 'sukses',
+    #     'message': 'ini hasilnya',
+    #     'data': data
+    #     # sabi diganti apapun
+    # }
+
+    # skrg from database
+    access_token = session.get('access_token')
+
+
+    if request.method == 'PUT':
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        title = request.form['title']
+        author = request.form['author']
+        totalpages = request.form['totalpages']
+        type = request.form['type']
+        published = request.form['published']
+        # cursor buat melakukan perintah2
+        query = 'UPDATE book SET title = %s, author = %s, totalpages = %s, type = %s, published = %s WHERE id = %s'
+        data = (title, author, totalpages, type, published, id)
+
+        cursor.execute(query, data)
+        conn.commit()
+        conn.close()
+
+        result = {
+            'Data berhasil diubah'
+        }
+        # dari mysql hasilnya langsung list, tapi listnya double
+        return render_template('update.html')
+        
 @app.route('/delete',methods=['DELETE', 'GET'])
 def delete_akun():
     app.logger.error(time.strftime('%A %B, %d %Y %H:%M:%S')+ 'Akses Delete Book Page')
