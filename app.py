@@ -275,6 +275,27 @@ def delete_akun():
         return render_template('delete.html')
         #return jsonify(result)
 
+@app.route('/delete/<string:id>',methods=['DELETE'])
+def delete_id(id):
+    app.logger.error(time.strftime('%A %B, %d %Y %H:%M:%S')+ 'Akses Delete Book Page')
+    # skrg from database
+    access_token = session.get('access_token')
+    if request.method == 'DELETE':
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        query = 'DELETE FROM book WHERE id = %s'
+        cursor.execute(query,(id))
+        conn.commit()
+        conn.close()
+
+        result = [{
+                'status': 204,
+                'message': "Success Delete"
+        }]
+        return render_template('delete.html')
+        #return jsonify(result)
+       
+
 if __name__ == "__main__":
     handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=1)
     handler.setLevel(logging.INFO)
