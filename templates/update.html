@@ -54,7 +54,9 @@
                 success: function (response) {
                     console.log(response);
                     $('#feedback').html('Book updated successfully!');
-                    window.location.reload();
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 2000);
                 },
                 error: function (response) {
                     console.log(response);
