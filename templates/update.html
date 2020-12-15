@@ -54,8 +54,9 @@
                 success: function (response) {
                     console.log(response);
                     $('#feedback').html('Book updated successfully!');
-                    window.location.reload();
-                
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 2000);
                 },
                 error: function (response) {
                     console.log(response);
@@ -123,18 +124,18 @@
     </script>
 
 <style>
-    .page-footer {
-        bottom:0;
-        width:100%;
-        }
-    </style>
-    <footer class="page-footer font-small blue">
-    
-        <!-- Copyright -->
-        <div class="footer-copyright text-center py-3">© 2020 Copyright: Elisabeth Levana 18218032
-        </div>
-        <!-- Copyright -->
-      
-      </footer>
-      <!-- Footer -->
+.page-footer {
+    bottom:0;
+    width:100%;
+    }
+</style>
+<footer class="page-footer font-small blue">
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2020 Copyright: Elisabeth Levana 18218032
+    </div>
+    <!-- Copyright -->
+  
+  </footer>
+  <!-- Footer -->
 </html>
