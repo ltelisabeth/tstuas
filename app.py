@@ -11,7 +11,6 @@ oauth = OAuth()
 app = Flask(__name__)
 mysql = MySQL()
 app.secret_key = 'secretkey'
-app.secret_key = 'secretkey'
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
 app.config['MYSQL_DATABASE_DB'] = 'tst_uas'
