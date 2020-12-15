@@ -11,6 +11,7 @@ oauth = OAuth()
 app = Flask(__name__)
 mysql = MySQL()
 app.secret_key = 'secretkey'
+app.secret_key = 'secretkey'
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
 app.config['MYSQL_DATABASE_DB'] = 'tst_uas'
@@ -299,4 +300,4 @@ if __name__ == "__main__":
     handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=1)
     handler.setLevel(logging.INFO)
     app.logger.addHandler(handler)
-    app.run(debug=True)
+    app.run(host='0.0.0.0')
