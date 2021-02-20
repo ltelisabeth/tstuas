@@ -28,8 +28,8 @@ google = oauth.remote_app('google',
                           access_token_url='https://accounts.google.com/o/oauth2/token',
                           access_token_method='POST',
                           access_token_params={'grant_type': 'authorization_code'},
-                          consumer_key='284463975146-mtm76jl4t7n31t11tn1qqcric26hspfi.apps.googleusercontent.com',
-                          consumer_secret='xvV2f5t_2dDJdW7R8dpPPK9M')
+                          consumer_key='',
+                          consumer_secret='')
 
 # yang penting ada routenya
 # HTTP request method: GET, POST, PUT, DELETE
